@@ -27,6 +27,16 @@ class Sudoku:
         print(self)
         n_pos = self.next_pos()
         if n_pos == None:
+            if self.sudoku[self.pos[0]][self.pos[1]] == 0:
+                for c in range(1, 10):
+                    self.sudoku[self.pos[0]][self.pos[1]] = c
+                    print(self)
+                    if self.check_line() and self.check_group():
+                        break
+                    else:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 0
+                if self.sudoku[self.pos[0]][self.pos[1]] == 0:
+                    return None
             return self
         if self.sudoku[self.pos[0]][self.pos[1]] == 0:
             for c in range(1, 10):
@@ -143,8 +153,9 @@ if __name__ == "__main__":
     else:
         d1 = args.date[0]
         d2 = args.date[1]
+    s_base = sudoku=get_base(d1, d2)
     print("\033[2J")
-    s = Sudoku(sudoku=get_base(d1, d2))
+    s = Sudoku(s_base)
     s = s.solve()
     if s == None:
         print("Your dates makes the sudoku unsolvable !")
